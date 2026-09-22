@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import letter from "./../assets/letter.svg";
+---
+
+<div
+  id="envelope-overlay"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-secondary"
+>
+  <button
+    type="button"
+    id="envelope-btn"
+    aria-label="Abrir invitación"
+    class="flex flex-col items-center gap-6 animate-bounce cursor-pointer"
+  >
+    <Image src={letter} class="w-40 h-40" alt="Sobre" />
+    <span class="font-garamond text-2xl text-primary max-w-xs"
+      >Toca para descrubrir esta invitación tan especial</span
+    >
+  </button>
+</div>
+
+<style>
+  #envelope-overlay {
+    transition: opacity 0.6s ease;
+  }
+
+  #envelope-overlay.is-closing {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById("envelope-overlay");
+  const btn = document.getElementById("envelope-btn");
+  const content = document.getElementById("page-content");
+
+  let assetsReady = false;
+  // solo espera las imágenes eager (arriba del pliegue); las lazy no deben
+  // forzarse a cargar aquí o se perdería el beneficio de performance del lazy load
+  const images = Array.from(
+    content?.querySelectorAll('img[loading="eager"]') ?? [],
+  ) as HTMLImageElement[];
+
+  Promise.all(
+    images.map((img) =>
+      img.complete ? Promise.resolve() : img.decode().catch(() => {}),
+    ),
+  ).then(() => {
+    assetsReady = true;
+  });
+
+  function openInvitation() {
+    if (!btn) return;
+    btn.classList.remove("animate-bounce");
+    overlay?.classList.add("is-closing");
+    content?.classList.add("pre-open");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        content?.classList.add("is-open");
+      });
+    });
+    setTimeout(() => overlay?.remove(), 700);
+  }
+
+  btn?.addEventListener("click", () => {
+    if (assetsReady) {
+      openInvitation();
+      return;
+    }
+    Promise.all(
+      images.map((img) =>
+        img.complete ? Promise.resolve() : img.decode().catch(() => {}),
+      ),
+    ).then(openInvitation);
+  });
+</script>

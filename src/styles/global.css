@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Amoresa Aged";
+  src: url("/fonts/amoresa-aged.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-garamond: "EB Garamond", serif;
+  --font-amoresa: "Amoresa Aged", serif;
+  --color-primary: #eeebe4;
+  --color-secondary: #7c8ea6;
+  --color-accent: #485673;
+}
+
+html,
+body {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  scroll-behavior: smooth;
+}

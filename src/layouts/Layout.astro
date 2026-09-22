@@ -1,23 +1,49 @@
+---
+import "../styles/global.css";
+import EnvelopeIntro from "../components/EnvelopeIntro.astro";
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>¡Julián y Sara se casan!</title>
+    <link
+      rel="preload"
+      as="font"
+      type="font/otf"
+      href="/fonts/amoresa-aged.otf"
+      crossorigin
+    />
+  </head>
+  <body>
+    <EnvelopeIntro />
+    <div id="page-content" class="origin-bottom">
+      <slot />
+    </div>
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  /* tamaño normal desde el inicio: solo invisible, así las imágenes cargan durante el salto del sobre */
+  #page-content {
+    opacity: 0;
+    transition:
+      scale 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.6s ease;
+  }
+
+  /* se aplica justo antes del clic para arrancar la animación desde un punto */
+  #page-content.pre-open {
+    scale: 0;
+  }
+
+  #page-content.is-open {
+    opacity: 1;
+    scale: 1;
+  }
 </style>

@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import flowers1 from "./../assets/flowers-1.svg";
+
+interface Props {
+  icon: ImageMetadata;
+  iconAlt: string;
+  iconHeight?: string;
+  justify?: "between" | "evenly";
+  venueName: string;
+  venueAddress: string;
+  mapsUrl: string;
+}
+
+const {
+  icon,
+  iconAlt,
+  iconHeight = "h-36",
+  justify = "between",
+  venueName,
+  venueAddress,
+  mapsUrl,
+} = Astro.props;
+
+const justifyClass =
+  justify === "evenly" ? "justify-evenly" : "justify-between";
+---
+
+<div class="relative overflow-hidden mt-8 rounded-2xl bg-accent px-12 py-8">
+  <div class={`flex ${justifyClass} items-center w-full`}>
+    <Image src={icon} class={`w-auto ${iconHeight}`} alt={iconAlt} />
+    <p class="text-4xl font-garamond font-medium text-primary">
+      <slot name="time" />
+    </p>
+  </div>
+  <p class="text-4xl font-garamond text-start font-medium text-primary mt-2">
+    <span class="italic">{venueName}</span>, {venueAddress}
+  </p>
+  <a
+    class="block w-fit rounded-md font-garamond font-medium text-3xl bg-secondary text-primary py-2 px-4 mt-4"
+    href={mapsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    VER UBICACIÓN
+  </a>
+  <Image
+    src={flowers1}
+    class="absolute -bottom-4 -right-4 w-auto h-36"
+    alt="Flowers icon"
+  />
+</div>

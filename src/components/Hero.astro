@@ -1,0 +1,316 @@
+---
+import { Image } from "astro:assets";
+import CalendarCard from "./CalendarCard.astro";
+import EventCard from "./EventCard.astro";
+import photo1 from "./../assets/photo-1.webp";
+import photo2 from "./../assets/photo-2.webp";
+import photo3 from "./../assets/photo-3.webp";
+import calendar from "./../assets/calendar.png";
+import bait from "./../assets/bait.png";
+import rings from "./../assets/rings.png";
+import church from "./../assets/church.svg";
+import glasses1 from "./../assets/glasses-1.svg";
+import flowers5 from "./../assets/flowers-5.svg?raw";
+import flowers2 from "./../assets/flowers-2.svg";
+import photo4 from "./../assets/photo-4.webp";
+import gift from "./../assets/gift.svg";
+import letter from "./../assets/letter.svg";
+import glasses2 from "./../assets/glasses-2.svg";
+import flowers3 from "./../assets/flowers-3.svg";
+import photo5 from "./../assets/photo-5.webp";
+import flowers4 from "./../assets/flowers-4.svg";
+import MusicPlayer from "./MusicPlayer.astro";
+---
+
+<section
+  class="text-center py-24 px-12 bg-secondary overflow-hidden max-w-screen-sm w-full mx-auto"
+>
+  <p class="text-5xl font-garamond font-medium">
+    Tenemos el gusto de invitarte a celebrar la unión de nuestro amor.
+  </p>
+  <div
+    class="relative bg-primary bg-cover h-auto w-auto mt-24 mx-16 px-8 pt-12 pb-4"
+  >
+    <div
+      class="absolute -bottom-12 -right-50 z-0 object-cover size-72 text-secondary"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div
+      class="absolute bottom-0 -left-46 z-0 object-cover size-80 text-secondary -scale-x-100"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div class="relative overflow-hidden z-10">
+      <Image
+        src={photo1}
+        width={700}
+        height={1050}
+        class="w-full h-84 object-cover object-center"
+        alt="First couple photo"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div
+        class="absolute -bottom-50 -right-58 z-10 object-cover size-72 text-primary"
+      >
+        <Fragment set:html={flowers5} />
+      </div>
+      <div
+        class="absolute -bottom-38 -left-54 z-10 object-cover size-80 text-primary -scale-x-100"
+      >
+        <Fragment set:html={flowers5} />
+      </div>
+    </div>
+    <p class="font-amoresa text-4xl text-secondary mt-6 leading-14">
+      Sara María y
+      <br />
+      Julián Felipe
+    </p>
+  </div>
+  <p class="text-5xl font-garamond font-medium mt-24">28 NOVIEMBRE 2026</p>
+  <div class="mt-24">
+    <MusicPlayer src="/audio/amor-de-primavera.mp3" />
+  </div>
+  <div class="mt-24">
+    <CalendarCard
+      mainImage={photo2}
+      mainImageAlt="Holding hands photo"
+      overlayImage={calendar}
+      overlayImageAlt="Calendar"
+    />
+  </div>
+  <p class="text-5xl font-garamond font-medium mt-24">
+    El amor no se busca, se encuentra y nosotros tuvimos la inmensa fortuna de
+    cruzarnos en el camino.
+  </p>
+  <div class="bg-primary bg-cover h-auto w-auto mt-24 px-12 pt-12 pb-8">
+    <Image
+      src={photo3}
+      width={700}
+      height={1050}
+      class="w-full h-160 object-cover object-center"
+      alt="Second couple photo"
+    />
+    <Image
+      src={bait}
+      width={300}
+      height={236}
+      class="w-auto h-20 mx-auto mt-6"
+      alt="Bait icon"
+    />
+  </div>
+  <p class="text-5xl font-garamond font-medium mt-24 mx-4">
+    Hoy, con la certeza de querer compartir cada uno de nuestros días futuros,
+    hemos decidido casarnos.
+  </p>
+  <Image src={rings} class="w-auto h-48 mt-8 mx-auto" alt="Rings icon" />
+  <div class="mt-24 rounded-2xl bg-primary py-12 px-8">
+    <p class="text-4xl font-garamond italic font-medium text-secondary">
+      Queremos celebrar que nos elegimos cada día y, sobre todo, queremos
+      brindar y bailar junto a las personas que han formado parte de nuestra
+      historia.
+    </p>
+  </div>
+  <h1 class="font-amoresa text-7xl text-primary mt-24">Ceremonia</h1>
+  <EventCard
+    icon={church}
+    iconAlt="Church icon"
+    venueName="Parroquia San Pedro y San Pablo"
+    venueAddress="Cl. 49A #77c 95, Laureles - Estadio, Medellín"
+    mapsUrl="https://www.google.com/maps/place/Parroquia+San+Pedro+y+San+Pablo/data=!4m2!3m1!1s0x0:0xcccad0fe09fb0789?sa=X&ved=1t:2428&ictx=111"
+  >
+    <Fragment slot="time">
+      <span class="font-bold">Llegada:</span> 9:45 a.m.
+      <br />
+      <span class="font-bold">Inicio:</span> 10:00 a.m.
+    </Fragment>
+  </EventCard>
+  <h1 class="font-amoresa text-7xl text-primary mt-24">Recepción</h1>
+  <EventCard
+    icon={glasses1}
+    iconAlt="Glasses icon"
+    iconHeight="h-40"
+    justify="evenly"
+    venueName="San Felipe Picnic"
+    venueAddress="Cl 36 #80-22, Laureles - Estadio, Medellín"
+    mapsUrl="https://www.google.com/maps/place/San+Felipe+Picnic+y+Asados/@6.2441731,-75.600289,1390m/data=!3m2!1e3!4b1!4m6!3m5!1s0x8e442998d52323d9:0x51e0ad17b8b5f143!8m2!3d6.2441731!4d-75.600289!16s%2Fg%2F11g86l8vkz?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D"
+  >
+    <Fragment slot="time">12:00 Mediodía</Fragment>
+  </EventCard>
+  <div
+    class="relative overflow-hidden z-10 bg-primary pt-16 pb-20 px-12 mx-8 mt-24"
+  >
+    <h1 class="relative text-6xl font-garamond text-accent font-bold z-20">
+      CÓDIGO DE VESTIMENTA
+    </h1>
+    <h2 class="relative font-amoresa text-5xl text-accent z-20 mt-14">
+      Tipo Cóctel
+    </h2>
+    <p
+      class="relative text-4xl italic font-regular font-garamond text-secondary z-20 mt-8 mx-12"
+    >
+      Con lo que te sientas lindo y linda para las fotos.
+    </p>
+    <p
+      class="relative text-4xl font-regular font-garamond text-secondary z-20 mt-14 mx-12 tracking-wider"
+    >
+      (Recuerda que <span class="font-medium"
+        >el blanco se reserva para la novia</span
+      >)
+    </p>
+    <div
+      class="absolute -bottom-20 -right-20 z-10 object-cover size-56 text-secondary -scale-x-100"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div
+      class="absolute -top-20 -left-12 z-10 object-cover size-56 text-secondary -scale-y-100 -scale-x-100"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+  </div>
+  <Image
+    src={flowers2}
+    class="w-full h-72 object-center mt-24"
+    alt="Flowers icon"
+  />
+  <div class="relative overflow-hidden z-10 bg-primary p-12 mx-12 mt-24">
+    <div class="relative overflow-hidden h-120">
+      <Image
+        src={photo4}
+        width={900}
+        height={1350}
+        class="absolute w-[130%] max-w-none h-120 object-cover object-[0%_30%]"
+        alt="Third couple photo"
+      />
+    </div>
+    <p
+      class="text-4xl font-regular font-garamond text-secondary z-20 mt-8 px-4"
+    >
+      Nuestra mayor alegría es compartir este día contigo
+    </p>
+    <div
+      class="absolute -top-28 -left-20 z-10 object-cover size-64 text-secondary -scale-x-100 rotate-45"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+  </div>
+  <p class="text-4xl font-garamond font-regular mt-24">
+    Tu presencia es el <br /> regalo principal
+  </p>
+  <Image src={gift} class="w-full h-72 object-center mt-4" alt="Gift icon" />
+  <p class="text-4xl font-garamond font-regular mt-4 mx-20">
+    Si deseas tener un detalle con nosotros, lo recibiremos con mucho amor en la
+    <span class="italic font-medium"> lluvia de sobres</span>.
+  </p>
+  <div
+    class="relative overflow-hidden mt-24 rounded-2xl bg-primary pt-12 pb-4 px-14 mx-8 z-10"
+  >
+    <p class="text-4xl font-garamond font-regular text-secondary">
+      La fecha límite para confirmar es el <span class="italic font-medium"
+        >1 de noviembre de 2026</span
+      >.
+    </p>
+    <p class="text-xl font-garamond font-medium text-accent mt-4">
+      ESCRIBE TU NOMBRE COMPLETO
+    </p>
+    <input
+      type="text"
+      class="relative z-20 w-full mt-4 p-2 text-xl font-garamond font-bold text-accent border-2 border-accent bg-primary rounded-lg text-center"
+    />
+    <a
+      href="#"
+      class="relative z-20 mt-4 inline-block font-garamond bg-secondary text-primary font-medium py-2 px-4 rounded-lg text-2xl"
+    >
+      ENVIAR
+    </a>
+    <div
+      class="absolute -bottom-24 -right-8 z-10 object-cover size-64 text-secondary -scale-x-100"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div
+      class="absolute -bottom-24 -left-8 z-10 object-cover size-64 text-secondary"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+  </div>
+  <Image
+    src={letter}
+    class="w-full h-64 object-center mt-16"
+    alt="Letter icon"
+  />
+  <h1 class="text-4xl font-garamond font-medium">CONFIRMA A CADA INTEGRANTE</h1>
+  <p class="text-4xl font-garamond font-regular mt-8 mx-12">
+    Por favor, confirma a cada integrante de tu invitación. El número de
+    personas invitadas está indicado en el <span class="italic"
+      >mensaje de WhatsApp que recibiste</span
+    >.
+  </p>
+  <hr class="mt-16 mx-36 border-t-2 border-primary" />
+  <Image
+    src={glasses2}
+    class="w-full h-64 object-center mt-14"
+    alt="Glasses icon"
+  />
+  <h1 class="text-4xl font-garamond font-medium mt-8 mx-16">
+    UNA CELEBRACIÓN SOLO PARA ADULTOS
+  </h1>
+  <p class="text-4xl font-garamond font-regular mt-8 mx-16">
+    Nuestra boda será sin niños. Gracias por comprender y acompañarnos en este
+    día tan especial.
+  </p>
+  <hr class="mt-16 mx-36 border-t-2 border-primary" />
+  <Image
+    src={flowers3}
+    class="w-full h-80 object-center mt-4"
+    alt="Flowers icon"
+  />
+  <p class="text-4xl font-garamond font-regular mx-20">
+    Si pasada esta fecha no recibimos tu respuesta, <span class="font-bold"
+      >entenderemos que no podrás acompañarnos</span
+    > , y aunque nos hará falta tu presencia, comprendemos la situación.
+  </p>
+  <div
+    class="relative overflow-hidden bg-primary bg-cover h-auto w-auto mt-24 mx-16 px-8 pt-12 pb-4"
+  >
+    <div
+      class="absolute -bottom-20 -right-32 z-0 object-cover size-64 text-secondary rotate-45"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div
+      class="absolute -top-28 -left-20 z-10 object-cover size-64 text-secondary -scale-x-100 rotate-45"
+    >
+      <Fragment set:html={flowers5} />
+    </div>
+    <div class="relative overflow-hidden z-10">
+      <Image
+        src={photo5}
+        width={700}
+        height={1050}
+        class="w-full h-120 object-cover object-top"
+        alt="Fourth couple photo"
+      />
+      <div
+        class="absolute -bottom-52 -right-40 z-10 object-cover size-64 text-primary rotate-45"
+      >
+        <Fragment set:html={flowers5} />
+      </div>
+      <div
+        class="absolute -top-40 -left-28 z-10 object-cover size-64 text-primary -scale-x-100 rotate-45"
+      >
+        <Fragment set:html={flowers5} />
+      </div>
+    </div>
+    <p class="relative font-amoresa text-4xl z-20 text-accent mt-8">
+      Hoy comienza nuestro "para siempre"
+    </p>
+  </div>
+  <Image
+    src={flowers4}
+    class="w-full h-72 object-center mt-4 -mb-24"
+    alt="Flowers icon"
+  />
+</section>

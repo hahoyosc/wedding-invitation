@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  mainImage: ImageMetadata;
+  mainImageAlt: string;
+  overlayImage: ImageMetadata;
+  overlayImageAlt: string;
+}
+
+const { mainImage, mainImageAlt, overlayImage, overlayImageAlt } = Astro.props;
+---
+
+<div class="w-full">
+  <div class="relative bg-primary bg-cover h-auto w-full px-12 py-8">
+    <Image
+      src={mainImage}
+      width={900}
+      height={600}
+      class="w-full h-90 object-cover object-center"
+      alt={mainImageAlt}
+    />
+  </div>
+  <Image
+    src={overlayImage}
+    width={500}
+    height={420}
+    class="relative mx-auto -mt-22 z-20 w-106 object-cover object-center"
+    alt={overlayImageAlt}
+  />
+</div>
