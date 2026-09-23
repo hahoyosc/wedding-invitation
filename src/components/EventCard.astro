@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import flowers1 from "./../assets/flowers-1.svg";
 
@@ -29,7 +28,13 @@ const justifyClass =
 
 <div class="relative overflow-hidden mt-8 rounded-2xl bg-accent px-12 py-8">
   <div class={`flex ${justifyClass} items-center w-full`}>
-    <Image src={icon} class={`w-auto ${iconHeight}`} alt={iconAlt} />
+    <img
+      src={icon.src}
+      width={icon.width}
+      height={icon.height}
+      class={`w-auto ${iconHeight}`}
+      alt={iconAlt}
+    />
     <p class="text-4xl font-garamond font-medium text-primary">
       <slot name="time" />
     </p>
@@ -45,8 +50,10 @@ const justifyClass =
   >
     VER UBICACIÓN
   </a>
-  <Image
-    src={flowers1}
+  <img
+    src={flowers1.src}
+    width={flowers1.width}
+    height={flowers1.height}
     class="absolute -bottom-4 -right-4 w-auto h-36"
     alt="Flowers icon"
   />
