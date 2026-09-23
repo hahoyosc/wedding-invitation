@@ -23,6 +23,7 @@ import MusicPlayer from "./MusicPlayer.astro";
 ---
 
 <section
+  id="invitation"
   class="text-center py-24 px-12 bg-secondary overflow-hidden max-w-screen-sm w-full mx-auto"
 >
   <p class="text-5xl font-garamond font-medium">
@@ -221,7 +222,8 @@ import MusicPlayer from "./MusicPlayer.astro";
         id="rsvp-name"
         name="name"
         required
-        class="relative z-20 w-full mt-4 p-2 text-xl font-garamond font-bold text-accent border-2 border-accent bg-primary rounded-lg text-center"
+        class="relative z-20 w-full mt-4 p-2 font-garamond font-bold text-accent border-2 border-accent bg-primary rounded-lg text-center"
+        style="font-size: 16px;"
       />
       <button
         type="submit"
@@ -230,11 +232,6 @@ import MusicPlayer from "./MusicPlayer.astro";
       >
         ENVIAR
       </button>
-      <p
-        id="rsvp-feedback"
-        class="relative z-20 mt-2 text-lg font-garamond text-accent"
-      >
-      </p>
     </form>
     <div
       class="absolute -bottom-24 -right-8 z-10 object-cover size-64 text-secondary -scale-x-100"
@@ -247,6 +244,11 @@ import MusicPlayer from "./MusicPlayer.astro";
       <Fragment set:html={flowers5} />
     </div>
   </div>
+  <p
+    id="rsvp-feedback"
+    class="relative z-20 mt-2 text-xl font-garamond text-primary"
+  >
+  </p>
   <Image
     src={letter}
     class="w-full h-64 object-center mt-16"
@@ -360,4 +362,67 @@ import MusicPlayer from "./MusicPlayer.astro";
       submitBtn.textContent = "ENVIAR";
     }
   });
+</script>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const section = document.getElementById("invitation");
+
+  function initScrollAnimations() {
+    if (!section) return;
+
+    const items = Array.from(section.children).filter(
+      (el) => el.tagName !== "SCRIPT" && !el.hasAttribute("data-no-reveal"),
+    );
+
+    const viewportHeight = window.innerHeight;
+
+    items.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const alreadyVisible = rect.top < viewportHeight;
+      if (alreadyVisible) return;
+
+      gsap.set(el, { opacity: 0, y: 48 });
+
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 75%",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+
+    if (document.readyState === "complete") {
+      ScrollTrigger.refresh();
+    } else {
+      window.addEventListener("load", () => ScrollTrigger.refresh(), {
+        once: true,
+      });
+    }
+    section.querySelectorAll("img").forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener("load", () => ScrollTrigger.refresh(), {
+        once: true,
+      });
+    });
+  }
+
+  if (!prefersReducedMotion) {
+    window.addEventListener("invitation:opened", initScrollAnimations, {
+      once: true,
+    });
+  }
 </script>

@@ -7,11 +7,14 @@ import EnvelopeIntro from "../components/EnvelopeIntro.astro";
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>¡Julián y Sara se casan!</title>
+    <title>¡Sara y Julián se casan!</title>
     <link
       rel="preload"
       as="font"
@@ -29,17 +32,13 @@ import EnvelopeIntro from "../components/EnvelopeIntro.astro";
 </html>
 
 <style>
-  /* tamaño normal desde el inicio: solo invisible, así las imágenes cargan durante el salto del sobre */
   #page-content {
     opacity: 0;
-    transition:
-      scale 1s cubic-bezier(0.34, 1.56, 0.64, 1),
-      opacity 0.6s ease;
-  }
-
-  /* se aplica justo antes del clic para arrancar la animación desde un punto */
-  #page-content.pre-open {
     scale: 0;
+    transform-origin: bottom center;
+    transition:
+      scale 1s cubic-bezier(0.25, 1.1, 0.5, 1),
+      opacity 1s ease-out;
   }
 
   #page-content.is-open {

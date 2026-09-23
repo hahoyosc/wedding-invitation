@@ -1,33 +1,57 @@
 ---
 import { Image } from "astro:assets";
-import letter from "./../assets/letter.svg";
+import envelopeClosed from "./../assets/envelope-close.png";
+import envelopeOpen from "./../assets/envelope-open.png";
 ---
 
 <div
   id="envelope-overlay"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-secondary"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-secondary pb-12"
 >
   <button
     type="button"
     id="envelope-btn"
     aria-label="Abrir invitación"
-    class="flex flex-col items-center gap-6 animate-bounce cursor-pointer"
+    class="flex flex-col items-center gap-6 animate-bounce [animation-duration:2s] cursor-pointer"
   >
-    <Image src={letter} class="w-40 h-40" alt="Sobre" />
-    <span class="font-garamond text-2xl text-primary max-w-xs"
-      >Toca para descrubrir esta invitación tan especial</span
+    <div class="relative w-160 h-160">
+      <Image
+        src={envelopeClosed}
+        id="envelope-icon-closed"
+        class="absolute inset-0 w-160 h-160 object-contain transition-all duration-500 ease-out"
+        alt="Closed envelope"
+      />
+      <Image
+        src={envelopeOpen}
+        id="envelope-icon-open"
+        class="absolute inset-0 w-160 h-160 object-contain scale-90 opacity-0 transition-all duration-500 ease-out"
+        alt="Opened envelope"
+      />
+    </div>
+    <span class="font-garamond text-5xl text-primary max-w-md"
+      >Abre el sobre, tenemos algo qué contarte.</span
     >
   </button>
 </div>
 
 <style>
   #envelope-overlay {
-    transition: opacity 0.6s ease;
+    transition: opacity 1s ease;
   }
-
   #envelope-overlay.is-closing {
     opacity: 0;
     pointer-events: none;
+  }
+  #envelope-btn.is-opened {
+    animation: none;
+  }
+  #envelope-icon-closed.is-hidden {
+    opacity: 0;
+    scale: 1.1;
+  }
+  #envelope-icon-open.is-visible {
+    opacity: 1;
+    scale: 1;
   }
 </style>
 
@@ -35,25 +59,14 @@ import letter from "./../assets/letter.svg";
   const overlay = document.getElementById("envelope-overlay");
   const btn = document.getElementById("envelope-btn");
   const content = document.getElementById("page-content");
+  const closedIcon = document.getElementById("envelope-icon-closed");
+  const openIcon = document.getElementById("envelope-icon-open");
+  const audio = document.getElementById("bg-audio") as HTMLAudioElement | null;
 
-  let assetsReady = false;
-  // solo espera las imágenes eager (arriba del pliegue); las lazy no deben
-  // forzarse a cargar aquí o se perdería el beneficio de performance del lazy load
-  const images = Array.from(
-    content?.querySelectorAll('img[loading="eager"]') ?? [],
-  ) as HTMLImageElement[];
-
-  Promise.all(
-    images.map((img) =>
-      img.complete ? Promise.resolve() : img.decode().catch(() => {}),
-    ),
-  ).then(() => {
-    assetsReady = true;
-  });
+  const OPEN_ICON_DELAY_MS = 550;
+  const OVERLAY_FADE_MS = 700;
 
   function openInvitation() {
-    if (!btn) return;
-    btn.classList.remove("animate-bounce");
     overlay?.classList.add("is-closing");
     content?.classList.add("pre-open");
     requestAnimationFrame(() => {
@@ -61,18 +74,23 @@ import letter from "./../assets/letter.svg";
         content?.classList.add("is-open");
       });
     });
-    setTimeout(() => overlay?.remove(), 700);
+    setTimeout(() => overlay?.remove(), OVERLAY_FADE_MS);
+
+    const CONTENT_TRANSITION_MS = 1000;
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("invitation:opened"));
+    }, CONTENT_TRANSITION_MS + 50);
   }
 
   btn?.addEventListener("click", () => {
-    if (assetsReady) {
-      openInvitation();
-      return;
-    }
-    Promise.all(
-      images.map((img) =>
-        img.complete ? Promise.resolve() : img.decode().catch(() => {}),
-      ),
-    ).then(openInvitation);
+    if (btn.classList.contains("is-opened")) return;
+    btn.classList.add("is-opened");
+
+    audio?.play().catch(() => {});
+
+    closedIcon?.classList.add("is-hidden");
+    openIcon?.classList.add("is-visible");
+
+    setTimeout(openInvitation, OPEN_ICON_DELAY_MS);
   });
 </script>

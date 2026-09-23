@@ -17,11 +17,18 @@
   --color-accent: #485673;
 }
 
+html {
+  font-size: clamp(9px, 2.5vw, 16px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 html,
 body {
   margin: 0 auto;
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
   background-color: var(--color-secondary);
   color: var(--color-primary);
   scroll-behavior: smooth;

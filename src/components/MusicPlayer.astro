@@ -25,8 +25,8 @@ const { src } = Astro.props;
   <button
     type="button"
     id="play-btn"
-    aria-label="Reproducir"
-    class="flex size-12 items-center justify-center rounded-full border-2 border-primary text-primary cursor-pointer animate-heartbeat"
+    aria-label="Play music"
+    class="flex size-12 items-center justify-center rounded-full border-2 border-primary text-primary cursor-pointer transition-opacity ease-in-out"
   >
     <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor" class="size-8">
       <path d="M8 5v14l11-7z"></path>
@@ -47,31 +47,6 @@ const { src } = Astro.props;
   </button>
 </div>
 
-<style>
-  @keyframes heartbeat {
-    0%,
-    100% {
-      scale: 1;
-    }
-    15% {
-      scale: 1.15;
-    }
-    30% {
-      scale: 1;
-    }
-    45% {
-      scale: 1.1;
-    }
-    60% {
-      scale: 1;
-    }
-  }
-
-  .animate-heartbeat {
-    animation: heartbeat 1.6s ease-in-out infinite;
-  }
-</style>
-
 <script>
   const audio = document.getElementById("bg-audio") as HTMLAudioElement;
   const playBtn = document.getElementById("play-btn") as HTMLButtonElement;
@@ -81,14 +56,6 @@ const { src } = Astro.props;
   const progressFill = document.getElementById(
     "progress-fill",
   ) as HTMLDivElement;
-
-  playBtn.addEventListener(
-    "click",
-    () => {
-      playBtn.classList.remove("animate-heartbeat");
-    },
-    { once: true },
-  );
 
   playBtn.addEventListener("click", () => {
     if (audio.paused) {
