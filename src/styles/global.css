@@ -32,4 +32,6 @@ body {
   background-color: var(--color-secondary);
   color: var(--color-primary);
   scroll-behavior: smooth;
+  -webkit-user-select: none;
+  user-select: none;
 }

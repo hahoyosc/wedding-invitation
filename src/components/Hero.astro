@@ -329,7 +329,7 @@ import MusicPlayer from "./MusicPlayer.astro";
 </section>
 
 <script>
-  const RSVP_ENDPOINT = "https://script.google.com/macros/s/DEPLOY_ID/exec";
+  const RSVP_ENDPOINT = "/api/rsvp";
 
   const form = document.getElementById("rsvp-form") as HTMLFormElement;
   const nameInput = document.getElementById("rsvp-name") as HTMLInputElement;
@@ -346,15 +346,21 @@ import MusicPlayer from "./MusicPlayer.astro";
     feedback.textContent = "";
 
     try {
-      await fetch(RSVP_ENDPOINT, {
+      const res = await fetch(RSVP_ENDPOINT, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
-      feedback.textContent = `¡Gracias, ${name}! Tu confirmación fue enviada.`;
-      form.reset();
-    } catch {
+      const response = await res.json();
+      if (res.ok) {
+        feedback.textContent = `¡Gracias, ${name}! Tu confirmación fue enviada.`;
+        form.reset();
+      } else {
+        feedback.textContent =
+          "Hubo un error al enviar, por favor intenta de nuevo.";
+      }
+    } catch (e) {
+      console.log(e);
       feedback.textContent =
         "Hubo un error al enviar, por favor intenta de nuevo.";
     } finally {
@@ -362,67 +368,4 @@ import MusicPlayer from "./MusicPlayer.astro";
       submitBtn.textContent = "ENVIAR";
     }
   });
-</script>
-
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  const section = document.getElementById("invitation");
-
-  function initScrollAnimations() {
-    if (!section) return;
-
-    const items = Array.from(section.children).filter(
-      (el) => el.tagName !== "SCRIPT" && !el.hasAttribute("data-no-reveal"),
-    );
-
-    const viewportHeight = window.innerHeight;
-
-    items.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const alreadyVisible = rect.top < viewportHeight;
-      if (alreadyVisible) return;
-
-      gsap.set(el, { opacity: 0, y: 48 });
-
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    });
-
-    if (document.readyState === "complete") {
-      ScrollTrigger.refresh();
-    } else {
-      window.addEventListener("load", () => ScrollTrigger.refresh(), {
-        once: true,
-      });
-    }
-    section.querySelectorAll("img").forEach((img) => {
-      if (img.complete) return;
-      img.addEventListener("load", () => ScrollTrigger.refresh(), {
-        once: true,
-      });
-    });
-  }
-
-  if (!prefersReducedMotion) {
-    window.addEventListener("invitation:opened", initScrollAnimations, {
-      once: true,
-    });
-  }
 </script>
