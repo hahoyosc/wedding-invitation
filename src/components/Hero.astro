@@ -215,16 +215,27 @@ import MusicPlayer from "./MusicPlayer.astro";
     <p class="text-xl font-garamond font-medium text-accent mt-4">
       ESCRIBE TU NOMBRE COMPLETO
     </p>
-    <input
-      type="text"
-      class="relative z-20 w-full mt-4 p-2 text-xl font-garamond font-bold text-accent border-2 border-accent bg-primary rounded-lg text-center"
-    />
-    <a
-      href="#"
-      class="relative z-20 mt-4 inline-block font-garamond bg-secondary text-primary font-medium py-2 px-4 rounded-lg text-2xl"
-    >
-      ENVIAR
-    </a>
+    <form id="rsvp-form">
+      <input
+        type="text"
+        id="rsvp-name"
+        name="name"
+        required
+        class="relative z-20 w-full mt-4 p-2 text-xl font-garamond font-bold text-accent border-2 border-accent bg-primary rounded-lg text-center"
+      />
+      <button
+        type="submit"
+        id="rsvp-submit"
+        class="relative z-20 mt-4 inline-block font-garamond bg-secondary text-primary font-medium py-2 px-4 rounded-lg text-2xl cursor-pointer"
+      >
+        ENVIAR
+      </button>
+      <p
+        id="rsvp-feedback"
+        class="relative z-20 mt-2 text-lg font-garamond text-accent"
+      >
+      </p>
+    </form>
     <div
       class="absolute -bottom-24 -right-8 z-10 object-cover size-64 text-secondary -scale-x-100"
     >
@@ -314,3 +325,39 @@ import MusicPlayer from "./MusicPlayer.astro";
     alt="Flowers icon"
   />
 </section>
+
+<script>
+  const RSVP_ENDPOINT = "https://script.google.com/macros/s/DEPLOY_ID/exec";
+
+  const form = document.getElementById("rsvp-form") as HTMLFormElement;
+  const nameInput = document.getElementById("rsvp-name") as HTMLInputElement;
+  const submitBtn = document.getElementById("rsvp-submit") as HTMLButtonElement;
+  const feedback = document.getElementById("rsvp-feedback") as HTMLElement;
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const name = nameInput.value.trim();
+    if (!name) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "ENVIANDO...";
+    feedback.textContent = "";
+
+    try {
+      await fetch(RSVP_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ name }),
+      });
+      feedback.textContent = `¡Gracias, ${name}! Tu confirmación fue enviada.`;
+      form.reset();
+    } catch {
+      feedback.textContent =
+        "Hubo un error al enviar, por favor intenta de nuevo.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "ENVIAR";
+    }
+  });
+</script>
